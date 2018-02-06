@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title>ARP Daemon WEB UI</title>
+	<link rel="stylesheet" href="/lib/bootstrap/css/bootstrap.css" />
+	<link rel="stylesheet" href="/lib/bootstrap/css/bootstrap-theme.min.css" />
+	<link rel="stylesheet" href="/css/main.css" />
+</head>
+<body>
+<div class="main-content">
+	<div class="container">
+		<div class="row text-center">
+			<div class="col xs-12">
+				<h1>ARP Daemon WEB UI</h1>
+			</div>
+			<div class="col xs-12">
+				<a href="?page=current" class="btn btn-info">Current</a>
+				<a href="?page=bio" class="btn btn-success">Bio</a>
+				<a href="?page=diffs" class="btn btn-info">Diffs</a>
+			</div>
+			<div class="col xs-12">
+				<div class="alert alert-info">Edit bio</div>
+			</div>
+			<div class="col xs-12">
+				<form method="POST">
+					<div class="form-group">
+						<label for="ip">IP</label>
+						<input type="text" name="ip_set" id="ip_set" value="{{id}}" disabled />
+						<input type="hidden" name="ip" id="ip" value="{{id}}" />
+					</div>
+					<div class="form-group">
+						<label for="desc">Description</label>
+						<input type="text" name="desc" id="desc" value="{{desc}}" />
+					</div>
+					<div class="form-group">
+						<input type="submit" value="Edit">
+					</div>
+				</form>				
+			</div>
+		</div>
+	</div>
+</div>
+<noscript>
+You should enable JavaScript in your browser to operate.
+</noscript>
+
+<script type="text/javascript" src="/lib/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="/lib/bootstrap/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/js/main.js"></script>
+</body>
+</html>

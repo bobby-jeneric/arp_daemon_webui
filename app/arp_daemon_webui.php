@@ -67,6 +67,16 @@ function add_bio(&$data, $ip, $desc)
 	return get_arp_cmd($data, 'add_bio "' . $ip . '" "' . $desc . '"');
 }
 
+function get_bio(&$data, $ip)
+{
+	$data = "";
+	return get_arp_cmd($data, 'get_bio "' . $ip . '"');
+}
+
+function get_diff_list(&$data)
+{
+	return get_arp_cmd($data, "get_diff_list");
+}
 
 function other_stuff()
 {

@@ -1,5 +1,7 @@
 <?php
 
+include_once("../app/arp_tcp.php");
+
 if (preg_match('/\.(?:png|jpg|jpeg|gif|css|js)$/', $_SERVER["REQUEST_URI"]))
 {
 //echo "static";
@@ -11,7 +13,6 @@ if (isset($_POST))
 	//var_dump($_POST);
 	if (isset($_POST['ip']) && isset($_POST['desc']))
 	{																			
-		include_once("../app/arp_daemon_webui.php");
 		$ip = $_POST['ip'];
 		$desc = $_POST['desc'];
 		$data = "";
@@ -30,7 +31,6 @@ if (isset($_GET['cmd']))
 	$cmd = $_GET['cmd'];
 	if ($cmd == 'get_current_list')
 	{
-		include_once("../app/arp_daemon_webui.php");
 		$data = "";
 		if (get_current_list($data) == 0)
 		{
@@ -40,7 +40,6 @@ if (isset($_GET['cmd']))
 	}
 	else if ($cmd == 'get_bio_list')
 	{
-		include_once("../app/arp_daemon_webui.php");
 		$data = "";
 		if (get_bio_list($data) == 0)
 		{
@@ -50,7 +49,6 @@ if (isset($_GET['cmd']))
 	}
 	else if ($cmd == 'get_diff_list')
 	{
-		include_once("../app/arp_daemon_webui.php");
 		$data = "";
 		if (get_diff_list($data) == 0)
 		{
@@ -77,8 +75,6 @@ if (isset($_GET['page']))
 	}
 	else if ($page == 'edit_bio')
 	{
-		include_once("../app/arp_daemon_webui.php");
-
 		$id="<unknown>";
 		if (isset($_GET['id']))
 		{

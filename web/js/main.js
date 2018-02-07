@@ -6,6 +6,11 @@ function arp_daemon_model()
 	this.status_names = {0: "None", 1: "Added", 2: "Changed MAC", 3: "Changed Node", 4: "Changed MAC and Node", 5: "Closed"};
 	this.status_color = {0: "red", 1: "green", 2: "blue", 3: "blue", 4: "blue", 5: "red"};
 
+	this.act_status_names = {0: "Started", 1: "Got changes", 2: "No changes"};
+	this.act_status_color = {0: "red", 1: "blue", 2: "green"};
+	this.act_type_names = {0: "Scheduled", 1: "Manual"};
+	this.act_type_color = {0: "blue", 1: "green"};
+
 	this.load_current = function()
 	{
 		var jqxhr = $.get("/?cmd=get_current_list", function(data) {
@@ -83,6 +88,32 @@ function arp_daemon_model()
 				alert("fail to load bio");
 			});
 	}
+
+	this.load_acts = function()
+	{
+		var jqxhr = $.get("/?cmd=get_act_list", function(data) {
+				var collection = [];
+				collection = JSON.parse(data);				
+				var stext = "<table class='table table-striped'><tr><td>CHANGEDATE</td><td>STATUS</td><td>TYPE</td></tr>";
+				if (collection != null && collection != undefined)
+				{
+				
+					for (var i = 0; i < collection.length; i++)
+					{
+						stext += "<tr><td>" + collection[i]["CHANGEDATE"] + "</td>";
+						stext += "<td><font color='" + _this.act_status_color[collection[i]["STATUS"]] + "'>" + 
+								_this.act_status_names[collection[i]["STATUS"]] + "</font></td>";
+						stext += "<td><font color='" + _this.act_type_color[collection[i]["TYPE"]] + "'>" + 
+								_this.act_type_names[collection[i]["TYPE"]] + "</font></td>";
+					}
+				}
+				stext += "</table>";
+				$("#arp_current_table").empty().append(stext);
+			})
+			.fail(function() {
+				alert("fail to load bio");
+			});
+	}
 }
 
 
@@ -102,6 +133,12 @@ function on_load_diffs()
 {
 	arp_daemon = new arp_daemon_model();
 	arp_daemon.load_diffs();
+}
+
+function on_load_acts()
+{
+	arp_daemon = new arp_daemon_model();
+	arp_daemon.load_acts();
 }
 
 

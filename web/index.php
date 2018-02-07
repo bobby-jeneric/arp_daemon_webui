@@ -56,6 +56,15 @@ if (isset($_GET['cmd']))
 		}
 		return 0;
 	}
+	else if ($cmd == 'get_act_list')
+	{
+		$data = "";
+		if (get_act_list($data) == 0)
+		{
+			echo $data;
+		}
+		return 0;
+	}
 
 	return 0;
 }
@@ -99,6 +108,11 @@ if (isset($_GET['page']))
 	else if ($page == 'diffs')
 	{
 		echo file_get_contents("./view/diffs.html");
+		return 0;
+	}
+	else if ($page == 'acts')
+	{
+		echo file_get_contents("./view/acts.html");
 		return 0;
 	}
 }

@@ -104,3 +104,8 @@ function get_diff_list(&$data)
 	return get_arp_cmd($data, "get_diff_list");
 }
 
+function get_act_list(&$data)
+{
+	return get_arp_cmd($data, "get_act_list");
+}
+

@@ -16,6 +16,7 @@ function arp_daemon_model()
 
 	this.reload_page = function()
 	{
+		this.get_ticks(this);
 		if (this.current_page == 1)
 		{
 			this.load_current();
@@ -39,7 +40,7 @@ function arp_daemon_model()
 		var jqxhr = $.get("/?cmd=get_current_list", function(data) {
 				var collection = [];
 				collection = JSON.parse(data);
-				var stext = "<table class='table table-striped'><tr><td>IP</td><td>MAC</td><td>NAME</td></tr>";
+				var stext = "";
 				if (collection != null && collection != undefined)
 				{
 				
@@ -50,7 +51,6 @@ function arp_daemon_model()
 						stext += "<td>" + collection[i]["NAME"] + "</td></tr>";
 					}
 				}
-				stext += "</table>";
 				$("#arp_current_table").empty().append(stext);
 			})
 			.fail(function() {
@@ -63,7 +63,7 @@ function arp_daemon_model()
 		var jqxhr = $.get("/?cmd=get_bio_list", function(data) {
 				var collection = [];
 				collection = JSON.parse(data);				
-				var stext = "<table class='table table-striped'><tr><td width='30%'>IP</td><td width='50%'>DESC</td><td width='20%'>&nbsp;</td></tr>";
+				var stext = "";
 				if (collection != null && collection != undefined)
 				{
 				
@@ -74,7 +74,6 @@ function arp_daemon_model()
 						stext += "<td><a href='/?page=edit_bio&id=" + collection[i]["IP"] + "' class='btn btn-info'>Edit</a><a class='btn btn-warning' onclick='on_delete(\"" + collection[i]["IP"] + "\")'>Delete</a></td></tr>";
 					}
 				}
-				stext += "</table>";
 				$("#arp_current_table").empty().append(stext);
 			})
 			.fail(function() {
@@ -88,7 +87,7 @@ function arp_daemon_model()
 		var jqxhr = $.get("/?cmd=get_diff_list", function(data) {
 				var collection = [];
 				collection = JSON.parse(data);				
-				var stext = "<table class='table table-striped'><tr><td>IP</td><td>MAC</td><td>NAME</td><td>STATUS</td><td>MAC OLD</td><td>NAME OLD</td><td>CHANGED</td></tr>";
+				var stext = "";
 				if (collection != null && collection != undefined)
 				{
 				
@@ -99,12 +98,11 @@ function arp_daemon_model()
 						stext += "<td>" + collection[i]["NAME"] + "</td>";
 						stext += "<td><font color='" + _this.status_color[collection[i]["STATUS"]] + "'>" + 
 								_this.status_names[collection[i]["STATUS"]] + "</font></td>";
-						stext += "<td>" + /*(collection[i]["MACOLD"] === undefined) ? "&nbsp;" : */collection[i]["MACOLD"] + "</td>";
-						stext += "<td>" + /*(collection[i]["NAMEOLD"] === undefined) ? "&nbsp;" : */collection[i]["NAMEOLD"]  + "</td>";
+						stext += "<td>" + collection[i]["MACOLD"] + "</td>";
+						stext += "<td>" + collection[i]["NAMEOLD"]  + "</td>";
 						stext += "<td>" + collection[i]["CHANGEDATE"] + "</td></tr>";
 					}
 				}
-				stext += "</table>";
 				$("#arp_current_table").empty().append(stext);
 			})
 			.fail(function() {
@@ -117,7 +115,7 @@ function arp_daemon_model()
 		var jqxhr = $.get("/?cmd=get_act_list&limit=10", function(data) {
 				var collection = [];
 				collection = JSON.parse(data);				
-				var stext = "<table class='table table-striped'><tr><td>CHANGEDATE</td><td>STATUS</td><td>TYPE</td></tr>";
+				var stext = "";
 				if (collection != null && collection != undefined)
 				{
 				
@@ -130,7 +128,6 @@ function arp_daemon_model()
 								_this.act_type_names[collection[i]["TYPE"]] + "</font></td>";
 					}
 				}
-				stext += "</table>";
 				$("#arp_current_table").empty().append(stext);
 			})
 			.fail(function() {
@@ -175,13 +172,13 @@ function arp_daemon_model()
 					var cur_tick_type = 0;
 					if (collection["STARTDATE"] != "")
 					{
-						stext = "Current ARP scan started: " + collection["STARTDATE"];
-						stext += "&nbsp;&nbsp;&nbsp;Lapsed seconds: " + collection["TICK"];
+						stext = "Current ARP scan started: <font color='green'>" + collection["STARTDATE"] + "</font>";
+						stext += "&nbsp;&nbsp;&nbsp;Time passed: <font color='green'>" + collection["TICK"] + "</font>";
 						cur_tick_type = 1;
 					}
 					else
 					{
-						stext = "Seconds to next ARP scan: " + collection["TICK"];
+						stext = "Time to next ARP scan: <font color='green'>" + collection["TICK"] + "</font>";
 					}
 
 					if (_this.last_tick_type != cur_tick_type)
@@ -198,8 +195,7 @@ function arp_daemon_model()
 	};
 
 	this._constructor = function()
-	{
-		this.get_ticks();
+	{		
 		setInterval(this.get_ticks, 5000, this);
 	};
 

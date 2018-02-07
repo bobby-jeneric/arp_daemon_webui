@@ -5,7 +5,7 @@ function request($indata, &$outdata)
 {
 	$outdata = '';
 	$address = '127.0.0.1';
-	$port = 10000;
+	$port = 10001;
 
 	try
 	{
@@ -104,8 +104,23 @@ function get_diff_list(&$data)
 	return get_arp_cmd($data, "get_diff_list");
 }
 
-function get_act_list(&$data)
+function get_act_list(&$data, $limit)
 {
-	return get_arp_cmd($data, "get_act_list");
+	return get_arp_cmd($data, "get_act_list|" . $limit);
+}
+
+function get_ticks_to_go(&$data)
+{
+	return get_arp_cmd($data, "get_ticks_to_go");
+}
+
+function manual_start(&$data)
+{
+	return get_arp_cmd($data, "manual_start");
+}
+
+function delete_bio(&$data, $ip)
+{
+	return get_arp_cmd($data, "delete_bio|" . $ip);
 }
 

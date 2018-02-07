@@ -58,8 +58,45 @@ if (isset($_GET['cmd']))
 	}
 	else if ($cmd == 'get_act_list')
 	{
+		$limit = 0;
+		if (isset($_GET["limit"]))
+		{
+			$limit = $_GET["limit"];
+		}
 		$data = "";
-		if (get_act_list($data) == 0)
+		if (get_act_list($data, $limit) == 0)
+		{
+			echo $data;
+		}
+		return 0;
+	}
+	else if ($cmd == 'get_ticks_to_go')
+	{
+		$data = "";
+		if (get_ticks_to_go($data) == 0)
+		{
+			echo $data;
+		}
+		return 0;
+	}
+	else if ($cmd == 'manual_start')
+	{
+		$data = "";
+		if (manual_start($data) == 0)
+		{
+			echo $data;
+		}
+		return 0;
+	}
+	else if ($cmd == 'delete_bio')
+	{
+		$ip = "";
+		if (isset($_GET["ip"]))
+		{
+			$ip = $_GET["ip"];
+		}
+		$data = "";
+		if (delete_bio($data, $ip) == 0)
 		{
 			echo $data;
 		}

@@ -14,6 +14,14 @@
 			<div class="col xs-12">
 				<h1>ARP Daemon WEB UI</h1>
 			</div>
+			<div class="col lg-10" id="arp_ticks_to_go">
+				&nbsp;
+			</div>
+			<div class="col lg-2">
+				<a onclick="on_manual_scan()" class="btn btn-warning">Manual</a>
+			</div>
+		</div>
+		<div class="row text-center">
 			<div class="col xs-12">
 				<a href="?page=current" class="btn btn-info">Current</a>
 				<a href="?page=bio" class="btn btn-success">Bio</a>
@@ -26,9 +34,7 @@
 		</div>
 	</div>
 	<div class="container">
-		<a href="/?page=add_bio" class="btn btn-default" aria-label="Left Align">
-	 <span class="glyphicon glyphicon-search"></span>
- </a>
+	 <a href="/?page=add_bio" class="btn btn-success">Add</a>
 	</div>
 	<div class="container" id="arp_current_table">
 	</div>

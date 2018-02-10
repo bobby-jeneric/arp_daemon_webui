@@ -20,9 +20,10 @@ if (isset($_POST))
 		$ret = add_bio($data, $ip, $desc);
 		if ($ret != 0)
 		{
-			echo $ip . " " . $desc;
+			//echo $ip . " " . $desc;
 		}
-		return 0;
+		header("Location: /?page=bio");
+		exit();
 	}
 }
 

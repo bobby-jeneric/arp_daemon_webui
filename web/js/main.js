@@ -14,9 +14,10 @@ function arp_daemon_model()
 	this.current_page = 0;
 	this.last_tick_type = 0;
 
+	this.get_ticks_handle = null;
+
 	this.reload_page = function()
 	{
-		this.get_ticks(this);
 		if (this.current_page == 1)
 		{
 			this.load_current();
@@ -71,7 +72,7 @@ function arp_daemon_model()
 					{
 						stext += "<tr><td>" + collection[i]["IP"] + "</td>";
 						stext += "<td>" + collection[i]["DESC"] + "</td>";
-						stext += "<td><a href='/?page=edit_bio&id=" + collection[i]["IP"] + "' class='btn btn-info'>Edit</a><a class='btn btn-warning' onclick='on_delete(\"" + collection[i]["IP"] + "\")'>Delete</a></td></tr>";
+						stext += "<td><a href='/?page=edit_bio&id=" + collection[i]["IP"] + "' class='btn btn-info'>Edit</a><a class='btn btn-danger' onclick='on_delete(\"" + collection[i]["IP"] + "\")'>Delete</a></td></tr>";
 					}
 				}
 				$("#arp_current_table").empty().append(stext);
@@ -172,14 +173,19 @@ function arp_daemon_model()
 					var cur_tick_type = 0;
 					if (collection["STARTDATE"] != "")
 					{
-						stext = "Current ARP scan started: <font color='green'>" + collection["STARTDATE"] + "</font>";
+						stext += "Current ARP scan started: <font color='green'>" + collection["STARTDATE"] + "</font>";
 						stext += "&nbsp;&nbsp;&nbsp;Time passed: <font color='green'>" + collection["TICK"] + "</font>";
 						cur_tick_type = 1;
 					}
 					else
 					{
-						stext = "Time to next ARP scan: <font color='green'>" + collection["TICK"] + "</font>";
+						stext += "Time to next ARP scan: <font color='green'>" + collection["TICK"] + "</font>";
 					}
+
+					stext += "<div style='display:inline;' width='100px'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div><a class='btn btn-" + 
+						((_this.get_ticks_handle != null) ? "danger" : "info") + 
+						"' onclick='on_turn_ticks()'>" +
+						((_this.get_ticks_handle != null) ? "Off" : "On") + "</a>";
 
 					if (_this.last_tick_type != cur_tick_type)
 					{
@@ -194,9 +200,25 @@ function arp_daemon_model()
 			});		
 	};
 
+	this.on_turn_ticks = function()
+	{
+		if (this.get_ticks_handle == null)
+		{
+			this.get_ticks(this);
+			this.get_ticks_handle = setInterval(this.get_ticks, 5000, this);
+		}
+		else
+		{
+			clearInterval(this.get_ticks_handle);
+			this.get_ticks_handle = null;
+			this.get_ticks(this);
+		}
+	};
+
 	this._constructor = function()
-	{		
-		setInterval(this.get_ticks, 5000, this);
+	{
+		this.get_ticks_handle = null;
+		this.on_turn_ticks();		
 	};
 
 	this._constructor();
@@ -239,5 +261,10 @@ function on_manual_scan()
 function on_delete(ip)
 {
 	arp_daemon.delete_bio(ip);
+}
+
+function on_turn_ticks()
+{
+	arp_daemon.on_turn_ticks();
 }
 
